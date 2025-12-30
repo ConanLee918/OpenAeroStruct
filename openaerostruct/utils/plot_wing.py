@@ -651,9 +651,8 @@ class Display(object):
                 self.draw_slider()
 
     def save_image(self):
-        fname = "fig" + ".pdf"
+        fname = "figures/Optimized_Wing.pdf"
         plt.savefig(fname)
-        print("Saved image to fig.pdf")
 
     def quit(self):
         """
@@ -740,6 +739,16 @@ def disp_plot(args=sys.argv):
     disp.draw_GUI()
     plt.tight_layout()
     disp.root.protocol("WM_DELETE_WINDOW", disp.quit)
+    
+    # Schedule image saving and program exit after a short delay
+    # to ensure GUI is fully rendered before capture
+    def save_and_quit():
+        disp.save_image()
+        disp.quit()
+    
+    # Wait 1000ms to ensure the GUI is fully rendered before saving
+    disp.root.after(1000, save_and_quit)
+    
     Tk.mainloop()
 
 
